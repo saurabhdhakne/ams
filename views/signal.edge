@@ -1,0 +1,178 @@
+@layout('layout.app')
+
+@section('content')
+
+<div class="container-fluid pb-5">
+    
+      
+    <div class="row">
+        <div class="col-md-6 p-4 col-sm-6 ibd">
+            <div class="col-md-12 card bg-dark text-light mt-5 pt-5 pb-3">
+                <h1 class="col-12 text-light text-center">Add Signal</h1>
+                <hr>
+                <form action="signalAdd" method="POST">
+                    <div class="form-group">
+                      <label for="sname">Signal Name :</label>
+                      <input type="text" class="form-control" id="sname" name="sname" aria-describedby="sname" placeholder="Enter the Signal Name">
+                    </div>
+                    <div class="form-group col-md-6 offset-md-3 mb-4 text-center">
+                        <label for="signal1">Signal 1 :</label>
+                        <input type="text" maxlength="12" class="form-control" id="signal1" name="signal1" aria-describedby="signal1" placeholder="Enter the Signal 1 Identifier">
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-5 text-center">
+                            <label for="signal2">Signal 2 :</label>
+                            <input type="text" maxlength="12" class="form-control" id="signal2" name="signal2" aria-describedby="signal2" placeholder="Enter the Signal 2 Identifier">
+                        </div>
+                        <input type="button"  class="btn btn-primary col-md-2" value="+">
+                        <div class="form-group col-md-5 text-center">
+                            <label for="signal3">Signal 3 :</label>
+                            <input type="text" maxlength="12" class="form-control" id="signal3" name="signal3" aria-describedby="signal3" placeholder="Enter the signal 3 Identifier">
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6 offset-md-3 mt-3 text-center">
+                        <label for="signal4">Signal 4 :</label>
+                        <input type="text" maxlength="12" class="form-control" id="signal4" name="signal4" aria-describedby="signal4" placeholder="Enter the Signal 4 Identifier">
+                    </div>
+                    <div class="form-group">
+                      <label for="ip">IP :</label>
+                      <input type="text" class="form-control" id="ip" name="ip" placeholder="Enter the IP">
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="lat" name="lat" aria-describedby="lat" placeholder="lat" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="lng" name="lng" aria-describedby="lng" placeholder="lng" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                </form>
+              
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6  mt-5" onload="getLocation()">
+            <form action="" class="col-md-12 col-sm-12">
+                
+                <h5 id="notice" class="card pt-3 pb-3 text-center mb-4"> Please give access to location...If you haven't. </h5>
+                <input type="hidden" name="location" value="">
+                
+                <div id="map" class="mb-3 shadowme" style="width:100%; height:60vh;z-index:8"></div>
+            
+                <p id="demo" class="card p-3"></p>
+        
+                <!-- <input type="button" onclick="getLocation()" class=" btn btn-outline-primary btn-block mt-2" value="Get Current Location">
+                -->
+                <input type="button" onclick="setLocation()" class=" btn btn-primary btn-block mt-2" value="Set Your Location">
+
+
+
+            </form>
+
+        </div>
+   </div>
+   
+</div>
+
+<script>
+     
+    var lngg, latt,hlat,hlng;
+    var marker;
+    
+            var map = L.map('map').setView([19.8684798, 75.3218784], 10);
+            map.locate({setView : true});
+           
+            map.addLayer(new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'));	
+            marker = L.marker([19.8684798, 75.3218784]).addTo(map)
+            .bindPopup('My location')
+                        .openPopup();
+           
+            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+                        
+         marker.dragging.enable();
+
+        function theLocation(){
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else { 
+                x = document.getElementById('notice');
+                x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+            
+        } theLocation();
+     
+    function showPosition(position) {
+        latt = position.coords.latitude;
+        lngg = position.coords.longitude;
+            document.getElementById('demo').innerHTML = "Latitude: " + latt + 
+            "<br>Longitude: " + lngg;
+            marker.setLatLng([position.coords.latitude, position.coords.longitude]);
+    }
+
+            function setLocation(){
+                position = marker.getLatLng();
+                hlat = position.lat;
+                hlng = position.lng;
+                document.getElementById('lat').value = hlat;
+                document.getElementById('lng').value = hlng;
+                alert('Location is Set.');
+            }
+
+
+            var search = new L.Control.Search({
+                    url: 'https://nominatim.openstreetmap.org/search?format=json&q={s}',
+                                    jsonpParam: 'json_callback',
+                                    propertyName: 'display_name',
+                                    propertyLoc: ['lat','lon'],
+                                    marker: false,
+                                    autoCollapse: true,
+                                    autoType: false,
+                                    textPlaceholder: ' search the location... ',
+                                    minLength: 2
+            });
+
+            search.on('search:locationfound',
+                    function(e) {
+                        
+                        map.removeLayer(marker);
+                        
+                        map.addLayer(new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'));	
+                        marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map)
+                        .bindPopup('My location')
+                                    .openPopup();
+
+                        marker.dragging.enable();
+
+                        latt = e.latlng.lat;
+                        lngg = e.latlng.lng;
+                        
+                    document.getElementById('demo').innerHTML = "Latitude: " + latt + "<br>Longitude: " + lngg;
+
+            });
+          
+            map.addControl(search);
+
+            
+            function onMapClick(e) {
+
+                        marker.on("dragend", function(ev) {
+                        var chagedPos = ev.target.getLatLng();
+                        this.bindPopup("ME at " +chagedPos.toString()).openPopup();
+                        loc1 = [chagedPos.lat,chagedPos.lng];
+                        hlat = chagedPos.lat;
+                        hlng = chagedPos.lng;
+                        document.getElementById('lat').value = hlat;
+                        document.getElementById('lng').value = hlng;
+                        document.getElementById('demo').innerHTML = "Latitude: " + hlat + 
+                        "<br>Longitude: " + hlng;
+                        console.log(loc1);
+
+                    });
+
+            }
+            map.on('click', onMapClick);
+
+
+</script>
+
+@endsection

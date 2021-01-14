@@ -1,0 +1,150 @@
+@layout('layout.app')
+
+@section('content')
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+crossorigin=""></script>
+
+<div class="container-fluid pb-5">
+     
+    <div class="row signals">
+        <h1 class="text-center pt-3 p-3 card bg-light rounded mt-4 col-10 offset-md-1">Signals</h1>
+        @each(dt in signals)
+            <div class="col-4 mt-3">
+                <a class="btn btn-primary btn-block" data-toggle="collapse" href="#signal{{dt.id}}" role="button" aria-expanded="false" aria-controls="signal{{dt.id}}">
+                {{dt.sname}}
+            </a>
+            <div class="collapse mt-2" id="signal{{dt.id}}">
+                <div class="card card-body  bg-dark text-light  text-center">
+                    
+                    <div class="col-12 p-3"> <input type="button" class="btn btn-success pl-4 pr-4" onclick="window.location='http://{{dt.ip}}?id=signal1'" value="{{dt.signal1}}"> </div>
+                
+                    <div class="row">
+                        <div class="col-5"> <input type="button" class="btn btn-success pl-1 pr-1 col-12" onclick="window.location='http://{{dt.ip}}?id=signal2'" value="{{dt.signal2}}"> </div>
+                        <div class="col-2"> <input type="button" class="btn btn-danger col-12" onclick="window.location='http://{{dt.ip}}?id=allRed'" value="+"> </div>
+                        <div class="col-5"> <input type="button" class="btn btn-success pl-1 pr-1 col-12" onclick="window.location='http://{{dt.ip}}?id=signal3'" value="{{dt.signal3}}"> </div>
+                    </div>
+                
+                    <div class="col-12 p-3"> <input type="button" class="btn btn-success pl-4 pr-4" onclick="window.location='http://{{dt.ip}}?id=signal4'" value="{{dt.signal4}}"> </div>
+                    <input type="button" value="Delete" class="btn btn-danger" onclick="window.location='deleteSignal?id={{dt.id}}' ">
+                </div>
+            
+            </div>
+            </div>
+        @endeach
+
+    </div>
+      
+</div>
+
+
+
+
+
+<script>
+     
+    var lngg, latt,hlat,hlng;
+    var marker;
+    
+            var map = L.map('map').setView([19.8684798, 75.3218784], 10);
+            map.locate({setView : true});
+           
+            map.addLayer(new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'));	
+            marker = L.marker([19.8684798, 75.3218784]).addTo(map)
+            .bindPopup('My location')
+                        .openPopup();
+           
+            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+                        
+         marker.dragging.enable();
+
+        function theLocation(){
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else { 
+                x = document.getElementById('notice');
+                x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+            
+        } theLocation();
+     
+    function showPosition(position) {
+        latt = position.coords.latitude;
+        lngg = position.coords.longitude;
+            document.getElementById('demo').innerHTML = "Latitude: " + latt + 
+            "<br>Longitude: " + lngg;
+            marker.setLatLng([position.coords.latitude, position.coords.longitude]);
+    }
+
+            function setLocation(){
+                position = marker.getLatLng();
+                hlat = position.lat;
+                hlng = position.lng;
+                document.getElementById('lat').value = hlat;
+                document.getElementById('lng').value = hlng;
+                alert('Location is Set.');
+            }
+
+
+            var search = new L.Control.Search({
+                    url: 'https://nominatim.openstreetmap.org/search?format=json&q={s}',
+                                    jsonpParam: 'json_callback',
+                                    propertyName: 'display_name',
+                                    propertyLoc: ['lat','lon'],
+                                    marker: false,
+                                    autoCollapse: true,
+                                    autoType: false,
+                                    textPlaceholder: ' search the location... ',
+                                    minLength: 2
+            });
+
+            search.on('search:locationfound',
+                    function(e) {
+                        
+                        map.removeLayer(marker);
+                        
+                        map.addLayer(new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'));	
+                        marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map)
+                        .bindPopup('My location')
+                                    .openPopup();
+
+                        marker.dragging.enable();
+
+                        latt = e.latlng.lat;
+                        lngg = e.latlng.lng;
+                        
+                    document.getElementById('demo').innerHTML = "Latitude: " + latt + "<br>Longitude: " + lngg;
+
+            });
+          
+            map.addControl(search);
+
+            
+            function onMapClick(e) {
+
+                        marker.on("dragend", function(ev) {
+                        var chagedPos = ev.target.getLatLng();
+                        this.bindPopup("ME at " +chagedPos.toString()).openPopup();
+                        loc1 = [chagedPos.lat,chagedPos.lng];
+                        hlat = chagedPos.lat;
+                        hlng = chagedPos.lng;
+                        document.getElementById('lat').value = hlat;
+                        document.getElementById('lng').value = hlng;
+                        document.getElementById('demo').innerHTML = "Latitude: " + hlat + 
+                        "<br>Longitude: " + hlng;
+                        console.log(loc1);
+
+                    });
+
+            }
+            map.on('click', onMapClick);
+
+
+</script>
+@endsection
