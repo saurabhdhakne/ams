@@ -21,15 +21,15 @@ crossorigin=""></script>
             <div class="collapse mt-2" id="signal{{dt.id}}">
                 <div class="card card-body  bg-dark text-light  text-center">
                     
-                    <div class="col-12 p-3"> <input type="button" class="btn btn-success pl-4 pr-4" onclick="window.location='http://{{dt.ip}}?id=signal1'" value="{{dt.signal1}}"> </div>
+                    <div class="col-12 p-3"> <input type="button" class="btn btn-success pl-4 pr-4"  value="{{dt.signal1}}"> </div>
                 
                     <div class="row">
-                        <div class="col-5"> <input type="button" class="btn btn-success pl-1 pr-1 col-12" onclick="window.location='http://{{dt.ip}}?id=signal2'" value="{{dt.signal2}}"> </div>
-                        <div class="col-2"> <input type="button" class="btn btn-danger col-12" onclick="window.location='http://{{dt.ip}}?id=allRed'" value="+"> </div>
-                        <div class="col-5"> <input type="button" class="btn btn-success pl-1 pr-1 col-12" onclick="window.location='http://{{dt.ip}}?id=signal3'" value="{{dt.signal3}}"> </div>
+                        <div class="col-5"> <input type="button" class="btn btn-success pl-1 pr-1 col-12"  value="{{dt.signal2}}"> </div>
+                        <div class="col-2"> <input type="button" class="btn btn-danger col-12"  value="+"> </div>
+                        <div class="col-5"> <input type="button" class="btn btn-success pl-1 pr-1 col-12" value="{{dt.signal3}}"> </div>
                     </div>
                 
-                    <div class="col-12 p-3"> <input type="button" class="btn btn-success pl-4 pr-4" onclick="window.location='http://{{dt.ip}}?id=signal4'" value="{{dt.signal4}}"> </div>
+                    <div class="col-12 p-3"> <input type="button" class="btn btn-success pl-4 pr-4" value="{{dt.signal4}}"> </div>
                     <input type="button" value="Delete" class="btn btn-danger" onclick="window.location='deleteSignal?id={{dt.id}}' ">
                 </div>
             

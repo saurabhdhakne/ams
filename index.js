@@ -28,6 +28,7 @@ const httpsOptions = {
 };
 
 //Controllers
+const indexPage = require("./Controllers/indexPage");
 const indexRoute = require("./Controllers/indexRoute");
 const adminLogin = require("./Controllers/adminLogin");
 const login = require("./Controllers/login");
@@ -38,6 +39,7 @@ const signalAdd = require("./Controllers/signalAdd");
 const signalData = require("./Controllers/signalData");
 const deleteSignal = require("./Controllers/deleteSignal");
 const deleteAmbulance = require("./Controllers/deleteAmbulance");
+const apiUser = require("./Controllers/apiUser");
 // create application/json parser
 var jsonParser = bodyParser.json();
 
@@ -84,7 +86,9 @@ const redirectLogin = (req, res, next) => {
   }
 };
 
-app.get("/", redirectLogin, indexRoute);
+app.get("/", indexPage);
+
+app.get("/adminLogin", redirectLogin, indexRoute);
 
 app.get("/login", login);
 
@@ -103,6 +107,13 @@ app.post("/adminLogin", urlencodedParser, adminLogin);
 app.post("/ambulanceAdd",urlencodedParser, ambulanceAdd);
 
 app.post("/signalAdd",urlencodedParser, signalAdd);
+
+
+// apis
+
+app.get("/apiUser",apiUser);
+
+
 
 app.get("/logout", (req, res, next) => {
   if (req.session) {
