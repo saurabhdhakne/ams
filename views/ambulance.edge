@@ -72,6 +72,7 @@ crossorigin=""></script>
                 <th scope="col">Hospital</th>
                 <th scope="col">Number Plate</th>
                 <th scope="col">Contact</th>
+                <th scope="col">Status</th>
                 <th scope="col">Delete</th>
               </tr>
             </thead>
@@ -84,6 +85,14 @@ crossorigin=""></script>
                 <td>{{ dt.hospital }}</td>
                 <td>{{ dt.number_plate }}</td>
                 <td>{{ dt.contact }}</td>
+                <td>
+                @if(dt.status)
+                    <input type="button" class="btn btn-outline-success btn-block" value="Accepted">
+                @else
+                    <input type="button" class="btn btn-success btn-block" value="Accept" onclick="window.location='acceptAmbulance?id={{dt.id}}' ">
+                @endif  
+                
+                </td>
                 <td>  <input type="button" value="Delete" class="btn btn-danger" onclick="window.location='deleteAmbulance?id={{dt.id}}' ">
                 </td>
               </tr>

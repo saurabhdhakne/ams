@@ -11,14 +11,17 @@ module.exports = (req, res) => {
     database: process.env.database,
   });
 
-  mysqlConnection.query("SELECT email,hospital,number_plate,contact FROM ambulance WHERE email ='"+ req.query.email +"' AND password ='" + sha256(req.query.password)+ "'", (err, rows, fields) => {
+  mysqlConnection.query("SELECT email,hospital,number_plate,contact,status FROM ambulance WHERE email ='"+ req.query.email +"' AND password ='" + sha256(req.query.password)+ "'", (err, rows, fields) => {
     if (!err) {
-
-        res.send(JSON.stringify(rows[0]));
-      
+        if(rows[0].status){
+            res.send(JSON.stringify(rows[0]));
+        }
+        else{
+            res.send("You don't have permission.");
+        }
     } else {
       console.log(err);
-      res.send();
+      res.send( );
     }
   });
 };

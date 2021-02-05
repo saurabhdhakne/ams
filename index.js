@@ -40,6 +40,9 @@ const signalData = require("./Controllers/signalData");
 const deleteSignal = require("./Controllers/deleteSignal");
 const deleteAmbulance = require("./Controllers/deleteAmbulance");
 const apiUser = require("./Controllers/apiUser");
+const acceptAmbulance = require("./Controllers/acceptAmbulance");
+const getAmbulanceLocations = require("./Controllers/getAmbulanceLocations");
+const updateLocationApi = require("./Controllers/updateLocationApi");
 // create application/json parser
 var jsonParser = bodyParser.json();
 
@@ -88,6 +91,8 @@ const redirectLogin = (req, res, next) => {
 
 app.get("/", indexPage);
 
+app.get("/home", indexRoute);
+
 app.get("/adminLogin", redirectLogin, indexRoute);
 
 app.get("/login", login);
@@ -102,6 +107,10 @@ app.get("/deleteSignal",redirectLogin, deleteSignal);
 
 app.get("/deleteAmbulance",redirectLogin, deleteAmbulance);
 
+app.get("/acceptAmbulance",redirectLogin, acceptAmbulance);
+
+app.get("/getAmbulanceLocations", getAmbulanceLocations);
+
 app.post("/adminLogin", urlencodedParser, adminLogin);
 
 app.post("/ambulanceAdd",urlencodedParser, ambulanceAdd);
@@ -109,11 +118,11 @@ app.post("/ambulanceAdd",urlencodedParser, ambulanceAdd);
 app.post("/signalAdd",urlencodedParser, signalAdd);
 
 
-// apis
+// api
 
 app.get("/apiUser",apiUser);
 
-
+app.post("/updateLocationApi",urlencodedParser, updateLocationApi);
 
 app.get("/logout", (req, res, next) => {
   if (req.session) {

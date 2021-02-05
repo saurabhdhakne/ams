@@ -18,6 +18,9 @@ crossorigin=""></script>
             <input type="hidden" name="location" value="">
             
             <div id="map" class="mb-3 shadowme" style="width:100%; height:60vh;z-index:8"></div>
+
+            <input type="button" id="loadLoc" class="btn btn-success m-2" value="Go Live" onclick="liveStream()">
+            <input type="button" id="stopStream" class="btn btn-danger m-2" value="Go Ofline" onclick="window.location='/home' ">
         
             {{--  <p id="demo" class="card p-3"></p>  --}}
     
@@ -34,7 +37,7 @@ crossorigin=""></script>
       <h3 class="col-12 bg-light p-2 text-center card">Ambulances</h3>
       @each(dt in ambulance)
 
-        <h5 class="col-12 card bg-secondary text-center text-light pt-2 pb-2 mt-4" onclick="">{{dt.number_plate}}</h5>
+            <h5 class="col-12 card bg-secondary text-center text-light pt-2 pb-2 mt-4" onclick="">{{dt.number_plate}}</h5>
       
       @endeach
 
@@ -80,112 +83,110 @@ crossorigin=""></script>
    </div>
 </div>
 
-
-
-
 {{--  
-<script>
-     
-    var lngg, latt,hlat,hlng;
-    var marker;
-    
-            var map = L.map('map').setView([19.8684798, 75.3218784], 10);
-            map.locate({setView : true});
-           
-            map.addLayer(new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'));	
-            marker = L.marker([19.8684798, 75.3218784]).addTo(map)
-            .bindPopup('My location')
-                        .openPopup();
-           
-            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
-                        
-         marker.dragging.enable();
-
-        function theLocation(){
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition);
-            } else { 
-                x = document.getElementById('notice');
-                x.innerHTML = "Geolocation is not supported by this browser.";
-            }
+    <script>
+        
+        var lngg, latt,hlat,hlng;
+        var marker;
+        
+                var map = L.map('map').setView([19.8684798, 75.3218784], 10);
+                map.locate({setView : true});
             
-        } theLocation();
-     
-    function showPosition(position) {
-        latt = position.coords.latitude;
-        lngg = position.coords.longitude;
-            document.getElementById('demo').innerHTML = "Latitude: " + latt + 
-            "<br>Longitude: " + lngg;
-            marker.setLatLng([position.coords.latitude, position.coords.longitude]);
-    }
-
-            function setLocation(){
-                position = marker.getLatLng();
-                hlat = position.lat;
-                hlng = position.lng;
-                document.getElementById('lat').value = hlat;
-                document.getElementById('lng').value = hlng;
-                alert('Location is Set.');
-            }
-
-
-            var search = new L.Control.Search({
-                    url: 'https://nominatim.openstreetmap.org/search?format=json&q={s}',
-                                    jsonpParam: 'json_callback',
-                                    propertyName: 'display_name',
-                                    propertyLoc: ['lat','lon'],
-                                    marker: false,
-                                    autoCollapse: true,
-                                    autoType: false,
-                                    textPlaceholder: ' search the location... ',
-                                    minLength: 2
-            });
-
-            search.on('search:locationfound',
-                    function(e) {
-                        
-                        map.removeLayer(marker);
-                        
-                        map.addLayer(new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'));	
-                        marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map)
-                        .bindPopup('My location')
-                                    .openPopup();
-
-                        marker.dragging.enable();
-
-                        latt = e.latlng.lat;
-                        lngg = e.latlng.lng;
-                        
-                    document.getElementById('demo').innerHTML = "Latitude: " + latt + "<br>Longitude: " + lngg;
-
-            });
-          
-            map.addControl(search);
-
+                map.addLayer(new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'));	
+                marker = L.marker([19.8684798, 75.3218784]).addTo(map)
+                .bindPopup('My location')
+                            .openPopup();
             
-            function onMapClick(e) {
+                L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+                            
+            marker.dragging.enable();
 
-                        marker.on("dragend", function(ev) {
-                        var chagedPos = ev.target.getLatLng();
-                        this.bindPopup("ME at " +chagedPos.toString()).openPopup();
-                        loc1 = [chagedPos.lat,chagedPos.lng];
-                        hlat = chagedPos.lat;
-                        hlng = chagedPos.lng;
-                        document.getElementById('lat').value = hlat;
-                        document.getElementById('lng').value = hlng;
-                        document.getElementById('demo').innerHTML = "Latitude: " + hlat + 
-                        "<br>Longitude: " + hlng;
-                        console.log(loc1);
+            function theLocation(){
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(showPosition);
+                } else { 
+                    x = document.getElementById('notice');
+                    x.innerHTML = "Geolocation is not supported by this browser.";
+                }
+                
+            } theLocation();
+        
+        function showPosition(position) {
+            latt = position.coords.latitude;
+            lngg = position.coords.longitude;
+                document.getElementById('demo').innerHTML = "Latitude: " + latt + 
+                "<br>Longitude: " + lngg;
+                marker.setLatLng([position.coords.latitude, position.coords.longitude]);
+        }
 
-                    });
+                function setLocation(){
+                    position = marker.getLatLng();
+                    hlat = position.lat;
+                    hlng = position.lng;
+                    document.getElementById('lat').value = hlat;
+                    document.getElementById('lng').value = hlng;
+                    alert('Location is Set.');
+                }
 
-            }
-            map.on('click', onMapClick);
+
+                var search = new L.Control.Search({
+                        url: 'https://nominatim.openstreetmap.org/search?format=json&q={s}',
+                                        jsonpParam: 'json_callback',
+                                        propertyName: 'display_name',
+                                        propertyLoc: ['lat','lon'],
+                                        marker: false,
+                                        autoCollapse: true,
+                                        autoType: false,
+                                        textPlaceholder: ' search the location... ',
+                                        minLength: 2
+                });
+
+                search.on('search:locationfound',
+                        function(e) {
+                            
+                            map.removeLayer(marker);
+                            
+                            map.addLayer(new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'));	
+                            marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map)
+                            .bindPopup('My location')
+                                        .openPopup();
+
+                            marker.dragging.enable();
+
+                            latt = e.latlng.lat;
+                            lngg = e.latlng.lng;
+                            
+                        document.getElementById('demo').innerHTML = "Latitude: " + latt + "<br>Longitude: " + lngg;
+
+                });
+            
+                map.addControl(search);
+
+                
+                function onMapClick(e) {
+
+                            marker.on("dragend", function(ev) {
+                            var chagedPos = ev.target.getLatLng();
+                            this.bindPopup("ME at " +chagedPos.toString()).openPopup();
+                            loc1 = [chagedPos.lat,chagedPos.lng];
+                            hlat = chagedPos.lat;
+                            hlng = chagedPos.lng;
+                            document.getElementById('lat').value = hlat;
+                            document.getElementById('lng').value = hlng;
+                            document.getElementById('demo').innerHTML = "Latitude: " + hlat + 
+                            "<br>Longitude: " + hlng;
+                            console.log(loc1);
+
+                        });
+
+                }
+                map.on('click', onMapClick);
 
 
-</script>  --}}
+    </script>  
+--}}
 
 
 {{--  Map Signals  --}}
@@ -196,19 +197,38 @@ crossorigin=""></script>
     planes.push(['{{ dt.sname }}','{{dt.lat}}','{{dt.lng}}' ])
 </script>
 @endeach
+{{--  
+@each(dt in ambulance) 
+<script>
+    planes2.push(['{{ dt.number_plate }}','{{dt.lat}}','{{dt.lng}}' ])
+</script>
+@endeach  --}}
+
 
 <script>
   
-    var marker, marker2, crd, loc1, point1 ;
+    var marker, crd, loc1, point1 ;
     var map = L.map('map').setView([19.908323, 75.364891], 15);
+
     var LeafIcon = L.Icon.extend({
 		options: {
 			iconSize:     [30,80],
             popupAnchor:  [-3, -86],
             iconAnchor:   [22, 94]
 		}
-	});
-	var greenIcon = new LeafIcon({iconUrl: './img/gif14.gif'});
+    });
+
+    var VehicleIcon = L.Icon.extend({
+		options: {
+			iconSize:     [50,50],
+            popupAnchor:  [-3, -86],
+            iconAnchor:   [22, 94]
+		}
+    });
+    
+    var greenIcon = new LeafIcon({iconUrl: './img/gif14.gif'});
+    
+	var vechIcon = new VehicleIcon({iconUrl: './img/gif16.gif'});
         
     mapLink = 
         '<a href="http://openstreetmap.org">OpenStreetMap</a>';
@@ -223,8 +243,93 @@ for (var i = 0; i < planes.length; i++) {
     .bindPopup("<a href='openHostel?hname="+planes[i][0]+"''>"+ planes[i][0]+"</a>")
     .addTo(map);
 }
+
 map.locate({setView : true});
 crd = marker.getLatLng();
+</script>
+<script>
+   function loadLoc0() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                ambulanceData = JSON.parse(this.responseText);
+                console.log(typeof ambulanceData);
+                planes2 = [];
+                for (i in ambulanceData){
+                    temp = [];
+                    temp[0] = ambulanceData[i].number_plate;
+                    temp[1] = ambulanceData[i].lat;
+                    temp[2] = ambulanceData[i].lng;
+                    planes2.push(temp);
+                }
+                 console.log(planes2);   
+                
+                for (var i = 0; i < planes2.length; i++) {
+                // eval('var marker' + i +';'); 
+                this["marker"+i] = new L.marker([planes2[i][1],planes2[i][2]], {icon: vechIcon} )
+                    .bindPopup("<a href='openAmbulance?hname="+planes2[i][0]+"''>"+ planes2[i][0]+"</a>")
+                    .addTo(map);
+                }
+
+            }
+        };
+        xhttp.open("GET", "getAmbulanceLocations", true);
+        xhttp.send();
+    }
+    loadLoc0();
+    function loadLoc() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                ambulanceData = JSON.parse(this.responseText);
+                console.log(typeof ambulanceData);
+                planes2 = [];
+                for (i in ambulanceData){
+                    temp = [];
+                    temp[0] = ambulanceData[i].number_plate;
+                    temp[1] = ambulanceData[i].lat;
+                    temp[2] = ambulanceData[i].lng;
+                    planes2.push(temp);
+                 }
+                map.eachLayer(function (layer) {
+                    map.removeLayer(layer);
+                });
+                mapLink = 
+                    '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+                L.tileLayer(
+                    'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; ' + mapLink + ' Contributors',
+                    maxZoom: 18,
+                    }).addTo(map);
+                for (var i = 0; i < planes.length; i++) {
+                    marker = new L.marker([planes[i][1],planes[i][2]], {icon: greenIcon} )
+                        .bindPopup("<a href='openHostel?hname="+planes[i][0]+"''>"+ planes[i][0]+"</a>")
+                        .addTo(map);
+                }
+                for (var i = 0; i < planes2.length; i++) {
+                // eval('var marker' + i +';'); 
+                this["marker"+i] = new L.marker([planes2[i][1],planes2[i][2]], {icon: vechIcon} )
+                    .bindPopup("<a href='openHostel?hname="+planes2[i][0]+"''>"+ planes2[i][0]+"</a>")
+                    .addTo(map);
+                }
+
+            }
+        };
+        xhttp.open("GET", "getAmbulanceLocations", true);
+        xhttp.send();
+        setTimeout(loadLoc,4000);
+    }
+    
+    function liveStream(){
+        alert("Live Monitoring is Starting...!")
+        document.getElementById('loadLoc').style.display = "none";
+        document.getElementById('stopStream').style.display = "block";
+
+        loadLoc();
+
+    }
+    // loadLoc();
+    
 </script>
 
 {{--   Map Signals end  --}}

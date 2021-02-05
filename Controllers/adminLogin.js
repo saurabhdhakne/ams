@@ -20,7 +20,7 @@ module.exports = (req, res) => {
         rows[0].username == req.body.username
       ) {
         req.session.userId = "Admin";
-        res.redirect("/");
+        res.redirect("/home");
       } else {
         console.log(err);
         res.send("Please check username and password");

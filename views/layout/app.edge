@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>AMS Admin</title>
+  <title>EVMS Admin</title>
 
   <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -34,7 +34,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 
-  <!-- Custom styles for this template-->
+  <!-- Custom styles for this template -->
+
   <style>
     body{
         background:#293542 ; 
@@ -64,11 +65,12 @@
         background: black;
         padding:5px;
     }
-    
-    @media(max-width:522px)
+    #stopStream{
+      display: none;
+    }
+    @media(max-width:720px)
     {
-                
-    
+        
 
     }  
 
@@ -78,7 +80,7 @@
 
 <body id="page-top">
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">AMS</a>
+    <a class="navbar-brand" href="/home">EVMS</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -86,12 +88,11 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="home">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="ambulance">Ambulance</a>
         </li>
-      
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Signal
@@ -102,7 +103,6 @@
             <a class="dropdown-item" href="signalData">Signal Data</a>
           </div>
         </li>
-    
       </ul>
       <form class="form-inline my-2 my-lg-0">
         {{--  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">  --}}

@@ -26,11 +26,11 @@ module.exports = (req, res) => {
               res.send("Ambulance with this number plate already present");
             } else {
               mysqlConnection.query(
-                "SELECT * FROM ambulance where email = '" + req.body.email + "'",
+                "SELECT * FROM signals where sname = '" + req.body.sname + "'",
                 (err, rows, fields) => {
                   if (!err) {
                     if (rows.length > 0) {
-                      res.send("Ambulance with same Email already present");
+                      res.send("Signal with same name already present");
                     } else {
                       var sql =
                         'INSERT INTO signals(sname,signal1, signal2, signal3, signal4, ip, lat, lng) VALUES ( "' +
