@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 16, 2021 at 05:47 AM
+-- Generation Time: Feb 05, 2021 at 06:54 PM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 7.2.3
 
@@ -54,16 +54,18 @@ CREATE TABLE `ambulance` (
   `number_plate` varchar(255) NOT NULL,
   `contact` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `status` int(11) NOT NULL DEFAULT '0'
+  `status` int(11) NOT NULL DEFAULT '0',
+  `lat` varchar(255) NOT NULL,
+  `lng` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `ambulance`
 --
 
-INSERT INTO `ambulance` (`id`, `email`, `hospital`, `number_plate`, `contact`, `password`, `status`) VALUES
-(1, 'sbdhakne309@gmail.com', 'scare', 'mh10_4804', '07769955625', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 0),
-(2, 'srb.bonny@gmail.com', 'SRB Care', 'mh20 4000', '07769955625', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 0);
+INSERT INTO `ambulance` (`id`, `email`, `hospital`, `number_plate`, `contact`, `password`, `status`, `lat`, `lng`) VALUES
+(1, 'sbdhakne309@gmail.com', 'scare', 'mh10_4804', '07769955625', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 1, '19.82332897908081', '75.32859030441116'),
+(2, 'srb.bonny@gmail.com', 'SRB Care', 'mh20 4000', '07769955625', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 1, '19.90332897908081', '76.32859030441116');
 
 -- --------------------------------------------------------
 
