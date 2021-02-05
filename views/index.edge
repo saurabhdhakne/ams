@@ -119,7 +119,7 @@ crossorigin=""></script>
 
 for (var i = 0; i < planes.length; i++) {
   marker = new L.marker([planes[i][1],planes[i][2]], {icon: greenIcon} )
-    .bindPopup("<a href='openHostel?hname="+planes[i][0]+"''>"+ planes[i][0]+"</a>")
+    .bindPopup("<a href='openAmbulance?hname="+planes[i][0]+"''>"+ planes[i][0]+"</a>")
     .addTo(map);
 }
 
@@ -181,12 +181,12 @@ crd = marker.getLatLng();
                     }).addTo(map);
                 for (var i = 0; i < planes.length; i++) {
                     marker = new L.marker([planes[i][1],planes[i][2]], {icon: greenIcon} )
-                        .bindPopup("<a href='openHostel?hname="+planes[i][0]+"''>"+ planes[i][0]+"</a>")
+                        .bindPopup("<a href='openAmbulance?hname="+planes[i][0]+"''>"+ planes[i][0]+"</a>")
                         .addTo(map);
                 }
                 for (var i = 0; i < planes2.length; i++) {
                 this["marker"+i] = new L.marker([planes2[i][1],planes2[i][2]], {icon: vechIcon} )
-                    .bindPopup("<a href='openHostel?hname="+planes2[i][0]+"''>"+ planes2[i][0]+"</a>")
+                    .bindPopup("<a href='openAmbulance?hname="+planes2[i][0]+"''>"+ planes2[i][0]+"</a>")
                     .addTo(map);
                 }
 
