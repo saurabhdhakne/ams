@@ -16,7 +16,7 @@ module.exports = (req, res) => {
       if (err) {
         res.send(err);
       } else {
-        mysqlConnection.query("SELECT id, number_plate, lat, lng FROM ambulance WHERE status1 = 1", (err, rows, fields) => {
+        mysqlConnection.query("SELECT id, number_plate, lat, lng FROM ambulance WHERE status1 = 1 and status = 1", (err, rows, fields) => {
           if (!err) {
             var signals = rows;
                 res.send(signals);
