@@ -43,6 +43,7 @@ const apiUser = require("./Controllers/apiUser");
 const acceptAmbulance = require("./Controllers/acceptAmbulance");
 const getAmbulanceLocations = require("./Controllers/getAmbulanceLocations");
 const updateLocationApi = require("./Controllers/updateLocationApi");
+const updateStatusApi = require("./Controllers/updateStatusApi");
 // create application/json parser
 var jsonParser = bodyParser.json();
 
@@ -97,32 +98,33 @@ app.get("/adminLogin", redirectLogin, indexRoute);
 
 app.get("/login", login);
 
-app.get("/ambulance",redirectLogin, ambulance);
+app.get("/ambulance", redirectLogin, ambulance);
 
-app.get("/signal",redirectLogin, signal);
+app.get("/signal", redirectLogin, signal);
 
-app.get("/signalData",redirectLogin, signalData);
+app.get("/signalData", redirectLogin, signalData);
 
-app.get("/deleteSignal",redirectLogin, deleteSignal);
+app.get("/deleteSignal", redirectLogin, deleteSignal);
 
-app.get("/deleteAmbulance",redirectLogin, deleteAmbulance);
+app.get("/deleteAmbulance", redirectLogin, deleteAmbulance);
 
-app.get("/acceptAmbulance",redirectLogin, acceptAmbulance);
+app.get("/acceptAmbulance", redirectLogin, acceptAmbulance);
 
 app.get("/getAmbulanceLocations", getAmbulanceLocations);
 
 app.post("/adminLogin", urlencodedParser, adminLogin);
 
-app.post("/ambulanceAdd",urlencodedParser, ambulanceAdd);
+app.post("/ambulanceAdd", urlencodedParser, ambulanceAdd);
 
-app.post("/signalAdd",urlencodedParser, signalAdd);
-
+app.post("/signalAdd", urlencodedParser, signalAdd);
 
 // api
 
-app.get("/apiUser",apiUser);
+app.get("/apiUser", apiUser);
 
-app.post("/updateLocationApi",urlencodedParser, updateLocationApi);
+app.post("/updateLocationApi", urlencodedParser, updateLocationApi);
+
+app.get("/updateStatusApi", updateStatusApi);
 
 app.get("/logout", (req, res, next) => {
   if (req.session) {
