@@ -14,7 +14,7 @@ module.exports = (req, res) => {
   mysqlConnection.query("SELECT id,email,hospital,number_plate,contact,status FROM ambulance WHERE email ='"+ req.query.email +"' AND password ='" + sha256(req.query.password)+ "'", (err, rows, fields) => {
     if (!err) {
         if(rows[0].status1){
-            res.send(JSON.stringify(rows[0]));
+            res.send(JSON.stringify(rows[0])); 
         }
         else{
             res.send("You don't have permission.");
