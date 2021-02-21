@@ -86,7 +86,7 @@ crossorigin=""></script>
                 <td>{{ dt.number_plate }}</td>
                 <td>{{ dt.contact }}</td>
                 <td>
-                @if(dt.status)
+                @if(dt.status1)
                     <input type="button" class="btn btn-outline-success btn-block" value="Accepted">
                 @else
                     <input type="button" class="btn btn-success btn-block" value="Accept" onclick="window.location='acceptAmbulance?id={{dt.id}}' ">

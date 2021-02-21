@@ -22,7 +22,7 @@ module.exports = (req, res) => {
           if (!err) {
             var signals = rows;
 
-            mysqlConnection.query("SELECT * FROM ambulance WHERE status = 1", (err, rows, fields) => {
+            mysqlConnection.query("SELECT * FROM ambulance WHERE status1 = 1 AND status = 1", (err, rows, fields) => {
               if (!err) {
                 var ambulance = rows;
                   res.render('index',{signals, ambulance});

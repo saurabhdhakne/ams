@@ -19,7 +19,7 @@ module.exports = (req, res) => {
         //  console.log("Connected!");
 
         mysqlConnection.query(
-            "Update ambulance SET status = 1 WHERE id = " + req.query.id,
+            "Update ambulance SET status1 = 1 WHERE id = " + req.query.id,
             (err, result) => {
               if (!err) {
                 console.log(result);
