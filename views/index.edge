@@ -18,6 +18,7 @@ crossorigin=""></script>
             <input type="hidden" name="location" value="">
             
             <div id="map" class="mb-3 shadowme" style="width:100%; height:60vh;z-index:8"></div>
+            {{--  Map division  --}}
 
             <input type="button" id="loadLoc" class="btn btn-success m-2" value="Go Live" onclick="liveStream()">
             <input type="button" id="stopStream" class="btn btn-danger m-2" value="Go Ofline" onclick="window.location='/home' ">
@@ -42,10 +43,12 @@ crossorigin=""></script>
             <div class="col-4 mt-3">
                 <a class="btn btn-primary btn-block" data-toggle="collapse" href="#signal{{dt.id}}" role="button" aria-expanded="false" aria-controls="signal{{dt.id}}">
                 {{dt.sname}}
+                {{--  Name of Signal  --}}
             </a>
             <div class="collapse mt-2" id="signal{{dt.id}}">
                 <div class="card card-body  bg-dark text-light  text-center">
-                    
+                   
+                    {{--  Signal   --}}
                     <div class="col-12 p-3"> <input type="button" class="btn btn-success pl-4 pr-4" onclick="signalOpen(1,'{{dt.ip}}')" value="{{dt.signal1}}"> </div>
                 
                     <div class="row">
@@ -55,8 +58,10 @@ crossorigin=""></script>
                     </div>
                 
                     <div class="col-12 p-3"> <input type="button" class="btn btn-success pl-4 pr-4" onclick="signalOpen(4,'{{dt.ip}}')" value="{{dt.signal4}}"> </div>
-
+                    
+                    {{--  Signal   --}}
                     </div>
+
             
             </div>
             </div>
@@ -78,6 +83,8 @@ crossorigin=""></script>
 {{--  Map Signals  --}}
 
 <script>  planes = []; planes2 = []  </script>
+{{--  planes for signals  --}}
+{{--  planes2 for ambulances  --}}
 @each(dt in signals) 
 <script>
     planes.push(['{{ dt.sname }}','{{dt.lat}}','{{dt.lng}}' ])
@@ -88,7 +95,10 @@ crossorigin=""></script>
   
     var marker, crd, loc1, point1 ;
     var map = L.map('map').setView([19.908323, 75.364891], 15);
+    // declaring map
 
+
+    //Signal Icons 
     var LeafIcon = L.Icon.extend({
 		options: {
 			iconSize:     [30,80],
@@ -96,7 +106,9 @@ crossorigin=""></script>
             iconAnchor:   [22, 94]
 		}
     });
+    
 
+    // ambulance icon
     var VehicleIcon = L.Icon.extend({
 		options: {
 			iconSize:     [50,50],
@@ -155,7 +167,11 @@ crd = marker.getLatLng();
         xhttp.send();
     }
     loadLoc0();
+
+
+
     function loadLoc() {
+        
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
@@ -194,15 +210,17 @@ crd = marker.getLatLng();
         };
         xhttp.open("GET", "getAmbulanceLocations", true);
         xhttp.send();
-        setTimeout(loadLoc,4000);
+        setTimeout(loadLoc,4000);  // calling loadLoc after 4 sec
     }
     
     function liveStream(){
+        // Making ambullances alive , Checking ambulance location constantly
         alert("Live Monitoring is Starting...!")
         document.getElementById('loadLoc').style.display = "none";
         document.getElementById('stopStream').style.display = "block";
 
         loadLoc();
+        // calling fnction loadLoc 
 
     }
     // loadLoc();

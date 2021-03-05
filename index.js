@@ -120,11 +120,11 @@ app.post("/signalAdd", urlencodedParser, signalAdd);
 
 // api
 
-app.get("/apiUser", apiUser);
+app.get("/apiUser", apiUser); // User Login Mobile
 
-app.post("/updateLocationApi", urlencodedParser, updateLocationApi);
+app.post("/updateLocationApi", urlencodedParser, updateLocationApi); // to update location of ambulance
 
-app.get("/updateStatusApi", updateStatusApi);
+app.get("/updateStatusApi", updateStatusApi); // To make ambulance online ofline
 
 app.get("/logout", (req, res, next) => {
   if (req.session) {
