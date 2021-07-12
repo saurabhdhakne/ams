@@ -44,6 +44,7 @@ const acceptAmbulance = require("./Controllers/acceptAmbulance");
 const getAmbulanceLocations = require("./Controllers/getAmbulanceLocations");
 const updateLocationApi = require("./Controllers/updateLocationApi");
 const updateStatusApi = require("./Controllers/updateStatusApi");
+const working = require("./Controllers/working");
 // create application/json parser
 var jsonParser = bodyParser.json();
 
@@ -93,6 +94,8 @@ const redirectLogin = (req, res, next) => {
 app.get("/", indexPage);
 
 app.get("/home", indexRoute);
+
+app.get("/working", working);
 
 app.get("/adminLogin", redirectLogin, indexRoute);
 

@@ -9,6 +9,11 @@ crossorigin=""/>
 integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
 crossorigin=""></script>
 
+<link href="https://unpkg.com/intro.js/minified/introjs.min.css" rel="stylesheet">
+<link href="https://unpkg.com/intro.js/themes/introjs-modern.css" rel="stylesheet">
+<script src="https://unpkg.com/intro.js/minified/intro.min.js"></script>
+
+
 <div class="container-fluid pb-5">
    <div class="row p-1">
     
@@ -17,17 +22,17 @@ crossorigin=""></script>
             
             <input type="hidden" name="location" value="">
             
-            <div id="map" class="mb-3 shadowme" style="width:100%; height:60vh;z-index:8"></div>
+            <div id="map" class="mb-3 shadowme" data-title="The Map" data-intro="All the Ambulances and Signal will be going to show here." style="width:100%; height:60vh;z-index:8"></div>
             {{--  Map division  --}}
 
-            <input type="button" id="loadLoc" class="btn btn-success m-2" value="Go Live" onclick="liveStream()">
+            <input type="button" id="loadLoc" class="btn btn-success m-2" value="Go Live" data-title="Check live location" data-intro="You can check live location of ambulances from here" onclick="liveStream()">
             <input type="button" id="stopStream" class="btn btn-danger m-2" value="Go Ofline" onclick="window.location='/home' ">
 
         </form>
 
     </div>
     <div class="col-md-4 p-2 pt-4">
-      <h3 class="col-12 bg-light p-2 text-center card">Ambulances</h3>
+      <h3 class="col-12 bg-light p-2 text-center card" data-title="Live Ambulances" data-intro="The ambulances which are online will be going to show here.">Ambulances</h3>
       @each(dt in ambulance)
 
             <h5 class="col-12 card bg-secondary text-center text-light pt-2 pb-2 mt-4" onclick="">{{dt.number_plate}}</h5>
@@ -38,7 +43,10 @@ crossorigin=""></script>
     <div class="col-md-12 pt-5">
      
         <div class="row signals">
-        
+        <div class="col-md-4 offset-md-4 shadowme h1 text-dark text-center bg-light p-3" data-title="Signals" data-intro="All the signals are going to show here, you can manipulate all the signals from this section.">
+            Signals
+        </div>
+        <div class="col-md-4"></div>
         @each(dt in signals)
             <div class="col-4 mt-3">
                 <a class="btn btn-primary btn-block" data-toggle="collapse" href="#signal{{dt.id}}" role="button" aria-expanded="false" aria-controls="signal{{dt.id}}">
@@ -224,7 +232,10 @@ crd = marker.getLatLng();
 
     }
     // loadLoc();
-    
+
+
+    introJs().start();
+
 </script>
 
 

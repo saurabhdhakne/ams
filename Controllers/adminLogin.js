@@ -12,8 +12,8 @@ module.exports = (req, res) => {
 
   mysqlConnection.query("SELECT * FROM admin", (err, rows, fields) => {
     if (!err) {
-      //console.log(req.body);
-      //console.log(rows);
+      console.log(req.body);
+      console.log(rows);
 
       if (
         rows[0].password == sha256(req.body.password) &&
